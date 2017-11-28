@@ -21,6 +21,15 @@ open class PasswordContainerView: UIView {
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var touchAuthenticationButton: UIButton!
     
+    //custom forked property //default 46 / 40
+    var fontSizeRatio = 46 / 40 {
+        didSet {
+            passwordInputViews.forEach {
+                $0.fontSizeRatio = self.fontSizeRatio
+            }
+        }
+    }
+    
     //MARK: Property
     open var deleteButtonLocalizedTitle: String = "" {
         didSet {
