@@ -21,6 +21,31 @@ open class PasswordContainerView: UIView {
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var touchAuthenticationButton: UIButton!
     
+    @IBOutlet var horizontalStackViews: [UIStackView]!
+    @IBOutlet weak var inputStackView: UIStackView!
+    @IBOutlet weak var containerStackView: UIStackView!
+    
+    open var horizontalSpacing: CGFloat = 34 {
+        didSet {
+            //let spacing = (self.bounds.width - 3 * inputViewWidth) / 2
+            
+            inputStackView.spacing = horizontalSpacing
+            
+            horizontalStackViews.forEach {
+                $0.spacing = horizontalSpacing
+            }
+            passwordInputViews.forEach {
+                $0.updateConstraints()
+            }
+        }
+    }
+    
+    open var dotToInputSpacing: CGFloat = 24 {
+        didSet {
+            containerStackView.spacing = dotToInputSpacing
+        }
+    }
+    
     //custom forked property //default 46 / 40
     open var fontSizeRatio: CGFloat = 46 / 40 {
         didSet {
@@ -53,6 +78,15 @@ open class PasswordContainerView: UIView {
         }
     }
     
+    open var textColor: UIColor = .black {
+        didSet {
+            guard !isVibrancyEffect else { return }
+            passwordInputViews.forEach {
+                $0.textColor = textColor
+            }
+        }
+    }
+    
     open override var tintColor: UIColor! {
         didSet {
             guard !isVibrancyEffect else { return }
@@ -60,7 +94,6 @@ open class PasswordContainerView: UIView {
             passwordDotView.strokeColor = tintColor
             touchAuthenticationButton.tintColor = tintColor
             passwordInputViews.forEach {
-                $0.textColor = tintColor
                 $0.borderColor = tintColor
             }
         }

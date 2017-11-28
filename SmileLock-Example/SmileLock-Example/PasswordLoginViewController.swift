@@ -21,13 +21,17 @@ class PasswordLoginViewController: UIViewController {
         super.viewDidLoad()
         
         //create PasswordContainerView
-        passwordContainerView = PasswordContainerView.create(in: passwordStackView, digit: kPasswordDigit)
+        passwordContainerView = PasswordContainerView.create(in: passwordStackView, digit: 4)
         passwordContainerView.delegate = self
+        passwordContainerView.dotToInputSpacing = 48
+        passwordContainerView.fontSizeRatio = 32 / 40
+        
         passwordContainerView.deleteButtonLocalizedTitle = "smilelock_delete"
         
         //customize password UI
-        passwordContainerView.tintColor = UIColor.color(.textColor)
-        passwordContainerView.highlightedColor = UIColor.color(.blue)
+        passwordContainerView.tintColor = UIColor.color(.green)
+        passwordContainerView.highlightedColor = UIColor.color(.green)
+        passwordContainerView.textColor = UIColor.color(.textColor)
     }
 }
 
@@ -51,7 +55,7 @@ extension PasswordLoginViewController: PasswordInputCompleteProtocol {
 
 private extension PasswordLoginViewController {
     func validation(_ input: String) -> Bool {
-        return input == "123456"
+        return input == "1111"
     }
     
     func validationSuccess() {

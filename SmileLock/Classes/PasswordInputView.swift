@@ -103,7 +103,7 @@ open class PasswordInputView: UIView {
         let height = bounds.height
         let center = CGPoint(x: width/2, y: height/2)
         let radius = min(width, height) / 2
-        let borderWidth = radius * borderWidthRatio
+        let borderWidth: CGFloat = 1 //radius * borderWidthRatio
         let circleRadius = radius - borderWidth
         
         //update label

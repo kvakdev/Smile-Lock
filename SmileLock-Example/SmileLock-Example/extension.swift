@@ -9,7 +9,7 @@
 import UIKit
 
 enum ColorType: String {
-    case blue = "20aee5"
+    case green = "0FD38A"
     case textColor = "555555"
 }
 

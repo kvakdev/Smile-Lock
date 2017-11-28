@@ -11,7 +11,7 @@ import UIKit
 class HomeViewController: UIViewController {
     
     //MARK: Property
-    let isBlurUI = true
+    let isBlurUI = false
     
     var loginVCID: String!
     
