@@ -34,9 +34,9 @@ class PasswordLoginViewController: UIViewController {
         passwordContainerView.highlightedColor = UIColor.color(.green)
         passwordContainerView.textColor = UIColor.color(.textColor)
         let image = #imageLiteral(resourceName: "deleteButton")
+        
         passwordContainerView.setDeleteButton(image: image)
-        passwordContainerView.setBimetricsButton(image: image)
-        passwordContainerView.touchAuthenticationEnabled = false
+        
     }
 }
 
