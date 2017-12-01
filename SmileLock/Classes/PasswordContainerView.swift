@@ -167,6 +167,16 @@ open class PasswordContainerView: UIView {
         return passwordContainerView
     }
     
+    open func setDeleteButton(image: UIImage) {
+        deleteButton.setImage(image.withRenderingMode(.alwaysOriginal), for: .normal)
+        deleteButton.setTitle("", for: .normal)
+    }
+    
+    open func setBimetricsButton(image: UIImage) {
+        touchAuthenticationButton.setImage(image, for: .normal)
+        touchAuthenticationButton.setTitle("", for: .normal)
+    }
+    
     //MARK: Life Cycle
     open override func awakeFromNib() {
         super.awakeFromNib()
@@ -196,10 +206,10 @@ open class PasswordContainerView: UIView {
     
     //MARK: IBAction
     @IBAction func deleteInputString(_ sender: AnyObject) {
-        guard inputString.characters.count > 0 && !passwordDotView.isFull else {
+        guard inputString.count > 0 && !passwordDotView.isFull else {
             return
         }
-        inputString = String(inputString.characters.dropLast())
+        inputString = String(inputString.dropLast())
     }
     
     @IBAction func touchAuthenticationAction(_ sender: UIButton) {
@@ -285,7 +295,7 @@ private extension PasswordContainerView {
 
 extension PasswordContainerView: PasswordInputViewTappedProtocol {
     public func passwordInputView(_ passwordInputView: PasswordInputView, tappedString: String) {
-        guard inputString.characters.count < passwordDotView.totalDotCount else {
+        guard inputString.count < passwordDotView.totalDotCount else {
             return
         }
         inputString += tappedString
