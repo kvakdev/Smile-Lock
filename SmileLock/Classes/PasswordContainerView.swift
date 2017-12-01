@@ -46,6 +46,17 @@ open class PasswordContainerView: UIView {
         }
     }
     
+    open var dotTintColor: UIColor? {
+        didSet {
+            guard let newColor = dotTintColor else {
+                return
+            }
+            
+            self.passwordDotView.strokeColor = newColor
+            self.passwordDotView.fillColor = newColor
+        }
+    }
+    
     //custom forked property //default 46 / 40
     open var fontSizeRatio: CGFloat = 46 / 40 {
         didSet {
@@ -67,7 +78,7 @@ open class PasswordContainerView: UIView {
     
     fileprivate var inputString: String = "" {
         didSet {
-            passwordDotView.inputDotCount = inputString.characters.count
+            passwordDotView.inputDotCount = inputString.count
             checkInputComplete()
         }
     }
@@ -91,7 +102,7 @@ open class PasswordContainerView: UIView {
         didSet {
             guard !isVibrancyEffect else { return }
             deleteButton.setTitleColor(tintColor, for: UIControlState())
-            passwordDotView.strokeColor = tintColor
+            passwordDotView.strokeColor = dotTintColor ?? tintColor
             touchAuthenticationButton.tintColor = tintColor
             passwordInputViews.forEach {
                 $0.borderColor = tintColor
@@ -102,7 +113,7 @@ open class PasswordContainerView: UIView {
     open var highlightedColor: UIColor! {
         didSet {
             guard !isVibrancyEffect else { return }
-            passwordDotView.fillColor = highlightedColor
+            passwordDotView.fillColor = dotTintColor ?? highlightedColor
             passwordInputViews.forEach {
                 $0.highlightBackgroundColor = highlightedColor
             }
@@ -177,6 +188,10 @@ open class PasswordContainerView: UIView {
         touchAuthenticationButton.setTitle("", for: .normal)
     }
     
+    open func setBiometrics(enabled: Bool) {
+        
+    }
+    
     //MARK: Life Cycle
     open override func awakeFromNib() {
         super.awakeFromNib()
@@ -229,7 +244,7 @@ open class PasswordContainerView: UIView {
 
 private extension PasswordContainerView {
     func checkInputComplete() {
-        if inputString.characters.count == passwordDotView.totalDotCount {
+        if inputString.count == passwordDotView.totalDotCount {
             delegate?.passwordInputComplete(self, input: inputString)
         }
     }
