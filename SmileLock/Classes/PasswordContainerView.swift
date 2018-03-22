@@ -13,6 +13,12 @@ public protocol PasswordInputCompleteProtocol: class {
     func touchAuthenticationComplete(_ passwordContainerView: PasswordContainerView, success: Bool, error: Error?)
 }
 
+enum BiometricType {
+    case none
+    case touch
+    case face
+}
+
 open class PasswordContainerView: UIView {
     
     //MARK: IBOutlet
@@ -20,6 +26,8 @@ open class PasswordContainerView: UIView {
     @IBOutlet open weak var passwordDotView: PasswordDotView!
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var touchAuthenticationButton: UIButton!
+    
+    @IBOutlet weak var faceImageView: UIImageView!
     
     @IBOutlet var horizontalStackViews: [UIStackView]!
     @IBOutlet weak var inputStackView: UIStackView!
@@ -203,8 +211,21 @@ open class PasswordContainerView: UIView {
         deleteButton.titleLabel?.adjustsFontSizeToFitWidth = true
         deleteButton.titleLabel?.minimumScaleFactor = 0.5
         touchAuthenticationEnabled = true
-        let image = touchAuthenticationButton.imageView?.image?.withRenderingMode(.alwaysTemplate)
-        touchAuthenticationButton.setImage(image, for: UIControlState())
+//        let image = touchAuthenticationButton.imageView?.image?.withRenderingMode(.alwaysTemplate)
+        
+        if #available(iOS 11.0, *) {
+            let type = touchIDContext.biometryType
+            let isFaceId = type == .faceID
+            let touch   = touchAuthenticationButton.imageView!.image!
+            let face    = faceImageView.image!
+            
+            let image: UIImage = isFaceId ? face : touch
+            
+            touchAuthenticationButton.setImage(image.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        } else {
+            touchAuthenticationButton.setImage(#imageLiteral(resourceName: "Touch").withRenderingMode(.alwaysTemplate), for: UIControlState())
+        }
+        
         touchAuthenticationButton.tintColor = tintColor
     }
     
@@ -217,6 +238,10 @@ open class PasswordContainerView: UIView {
     
     open func clearInput() {
         inputString = ""
+    }
+    
+    open func startBiometricValidation() {
+        self.touchAuthenticationAction(self.touchAuthenticationButton)
     }
     
     //MARK: IBAction

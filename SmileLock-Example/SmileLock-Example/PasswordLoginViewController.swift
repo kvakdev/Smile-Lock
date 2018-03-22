@@ -38,6 +38,12 @@ class PasswordLoginViewController: UIViewController {
         passwordContainerView.setDeleteButton(image: image)
         
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        passwordContainerView.startBiometricValidation()
+    }
 }
 
 extension PasswordLoginViewController: PasswordInputCompleteProtocol {
